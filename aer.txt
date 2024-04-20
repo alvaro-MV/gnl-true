@@ -1,0 +1,1 @@
+Puede ser que el problema del otr archivo es que sea tx en vez de txt.

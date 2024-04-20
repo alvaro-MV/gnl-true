@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alvaro <alvaro@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alvmoral <alvmoral@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:45:45 by alvaro            #+#    #+#             */
-/*   Updated: 2024/04/19 15:19:29by alvaro           ###   ########.fr       */
+/*   Updated: 2024/04/20 20:06:38by alvmoral         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
 char	*append(char *s1, char *s2)
 {
-	char    *ptr;
-	size_t  l1;
-	size_t  l2;
-	size_t  lt;
+	char	*ptr;
+	size_t	l1;
+	size_t	l2;
+	size_t	lt;
 
 	l1 = 0;
 	while (s1[l1])
@@ -28,43 +29,43 @@ char	*append(char *s1, char *s2)
 	lt = l1 + l2;
 	ptr = (char *) malloc(lt * sizeof(char) + 1);
 	if (ptr == NULL)
-			return (NULL);
+		return (NULL);
 	while (*s1)
-			*ptr++ = *s1++;
+		*ptr++ = *s1++;
 	while (*s2)
-			*ptr++ = *s2++;
+		*ptr++ = *s2++;
 	*ptr = '\0';
-	free(s2);
+	free(s1 - l1);
 	return (ptr - lt);
 }
 
-char    *ft_strdup(const char *s1)
+char	*ft_strdup(const char *s1, char c)
 {
-        char	*ptr;
-        int		len;
-		int		i;
+	char	*ptr;
+	int		len;
+	int		i;
 
-        len = 0;
-		i = 0;
-        while (s1[len])
-                len++;
+	len = 0;
+	i = 0;
+	while (s1[len] && s1[len] != c)
 		len++;
-        ptr = (char *) malloc(len + 1);
-        if (ptr == NULL)
-                return (NULL);
-        while (len--)
-        {
-            ptr[i] = s1[i];
-            i++;
-        }
-        return (ptr);
+	ptr = (char *) malloc(len + 1);
+	if (ptr == NULL)
+		return (NULL);
+	while (len--)
+	{
+		ptr[i] = s1[i];
+		i++;
+	}
+	return (ptr);
 }
 
 char	*get_next_line(int fd)
 {
-	int 		found;
+	int			found;
 	static char	*after_eol;
 	char		read_buffer[BUFF_SIZE];
+	size_t		bytes_read;
 	char		*return_buffer;
 	t_list		*lst;
 
@@ -72,27 +73,27 @@ char	*get_next_line(int fd)
 		return (NULL);
 	found = 0;
 	lst = NULL;
-	after_eol = NULL;
-	while (!found)
+	return_buffer = "";
+	bytes_read = 1;
+	if (after_eol != NULL)
+		ft_lstadd_front(&lst, after_eol);
+	while (!found && bytes_read)
 	{
-		if (found == 1)
-		{
-			return_buffer = (after_eol, return_buffer);
-			found == 1;
-		}
-		read(fd, read_buffer, BUFF_SIZE);
+		bytes_read = read(fd, read_buffer, BUFF_SIZE);
 		if (ft_strchr(read_buffer, '\n') == NULL)
-			ft_lstadd_back(&lst, ft_lstnew(ft_strdup(read_buffer)));
-		else
+			ft_lstadd_back(&lst, ft_strdup(read_buffer, '\n'));
+		else if (ft_strchr(read_buffer, '\n') != NULL)
 		{
+			ft_lstadd_back(&lst, ft_strdup(read_buffer, '\n'));
 			return_buffer = malloc(ft_lstsize(lst) * BUFF_SIZE);
-			while(lst)
+			while (lst)
 			{
-				return_buffer = append(lst->content, return_buffer);
-				lst->next;
+				return_buffer = append(return_buffer, lst->content);
+				lst = lst->next;
 			}
 			ft_lstclear(&lst);
-			after_eol = ft_strchr(read_buffer, '\n'); //quiza haya que alocar memoria.
+			after_eol = ft_strdup(ft_strchr(read_buffer, '\n'), '\0'); //quiza haya que alocar memoria.
+			//printf("after_eol: %s\n", after_eol);
 			found = 1;
 		}
 	}

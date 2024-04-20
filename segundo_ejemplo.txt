@@ -1,0 +1,4 @@
+Hola que tal estais.
+
+Esta es la segunda prueba que hago de mi implementacion de la funcion
+get_next_line.
