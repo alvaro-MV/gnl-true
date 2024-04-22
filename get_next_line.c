@@ -44,15 +44,19 @@ char	*ft_strdup(const char *s1, char c)
 	char	*ptr;
 	int		len;
 	int		i;
+	int		j;
 
 	len = 0;
 	i = 0;
+	j = 0;
 	while (s1[len] && s1[len] != c)
+		len++;
+	while (s1[len] == c)
 		len++;
 	ptr = (char *) malloc(len + 1);
 	if (ptr == NULL)
 		return (NULL);
-	while (len--)
+	while (i < len)
 	{
 		ptr[i] = s1[i];
 		i++;
@@ -79,12 +83,12 @@ char	*get_next_line(int fd)
 		ft_lstadd_front(&lst, after_eol);
 	while (!found && bytes_read)
 	{
-		bytes_read = read(fd, read_buffer, BUFF_SIZE);
-		if (ft_strchr(read_buffer, '\n') == NULL)
-			ft_lstadd_back(&lst, ft_strdup(read_buffer, '\n'));
-		else if (ft_strchr(read_buffer, '\n') != NULL)
+		bytes_read = read(fd, read_buffer, BUFF_SIZE - 2);
+		if (ft_strrchr(read_buffer, '\n') == NULL)
+			ft_lstadd_back(&lst, ft_strdup(read_buffer, '\0'));
+		else
 		{
-			ft_lstadd_back(&lst, ft_strdup(read_buffer, '\n'));
+			ft_lstadd_back(&lst, ft_strdup(read_buffer, '\0'));
 			return_buffer = malloc(ft_lstsize(lst) * BUFF_SIZE);
 			while (lst)
 			{
@@ -92,7 +96,9 @@ char	*get_next_line(int fd)
 				lst = lst->next;
 			}
 			ft_lstclear(&lst);
-			after_eol = ft_strdup(ft_strchr(read_buffer, '\n'), '\0'); //quiza haya que alocar memoria.
+			after_eol = ft_strdup(ft_strrchr(read_buffer, '\n'), '\0');
+			return_buffer = ft_strdup(return_buffer, '\n');
+			//printf("return_buffer para entregar: %s\n", return_buffer);
 			//printf("after_eol: %s\n", after_eol);
 			found = 1;
 		}
