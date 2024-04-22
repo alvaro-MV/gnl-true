@@ -6,7 +6,7 @@
 /*   By: alvmoral <alvmoral@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 19:43:19 by alvmoral          #+#    #+#             */
-/*   Updated: 2024/04/22 13:25:25 by alvmoral         ###   ########.fr       */
+/*   Updated: 2024/04/22 20:39:40 by alvmoral         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_list;
 
-char	*ft_strrchr(const char *s, int c);
+char	*ft_strchr(const char *s, int c);
 void	ft_lstadd_front(t_list **lst, char *content);
 void	ft_lstadd_back(t_list **lst, char *content);
 t_list	*ft_lstnew(void *content);

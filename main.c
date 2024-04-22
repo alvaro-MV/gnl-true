@@ -11,6 +11,7 @@ int main() {
 
 	fd = open("segundo_ejemplo.txt", O_RDONLY);
 	next_line = get_next_line(fd);
+	printf("%s", next_line);
 	int n = 2;
 	while(n--)
 	{

@@ -6,23 +6,23 @@
 /*   By: alvmoral <alvmoral@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:47:09 by alvaro            #+#    #+#             */
-/*   Updated: 2024/04/22 19:03:59 by alvmoral         ###   ########.fr       */
+/*   Updated: 2024/04/22 20:38:46 by alvmoral         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strrchr(const char *s, int c)
+char	*ft_strchr(const char *s, int c)
 {
 	c = (char) c;
 	while (*s)
 	{
+		if (*s == c)
+			return ((char *) s);
 		s++;
-		if (*s && *s == c && *(s + 1) != c)
-			return ((char *) s + 1);
 	}
 	if (*s == c)
-		return ((char *) s + 1);
+		return ((char *) s);
 	else
 		return (0);
 }

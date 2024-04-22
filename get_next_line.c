@@ -51,8 +51,8 @@ char	*ft_strdup(const char *s1, char c)
 	j = 0;
 	while (s1[len] && s1[len] != c)
 		len++;
-	while (s1[len] == c)
-		len++;
+	// while (s1[len] == c)
+	// 	len++;
 	ptr = (char *) malloc(len + 1);
 	if (ptr == NULL)
 		return (NULL);
@@ -84,11 +84,11 @@ char	*get_next_line(int fd)
 	while (!found && bytes_read)
 	{
 		bytes_read = read(fd, read_buffer, BUFF_SIZE - 2);
-		if (ft_strrchr(read_buffer, '\n') == NULL)
-			ft_lstadd_back(&lst, ft_strdup(read_buffer, '\0'));
-		else
+		ft_lstadd_back(&lst, ft_strdup(read_buffer, '\0'));
+		// if (ft_strrchr(read_buffer, '\n') == NULL)
+		// 	ft_lstadd_back(&lst, ft_strdup(read_buffer, '\0'));
+		if (ft_strchr(read_buffer, '\n') != NULL)
 		{
-			ft_lstadd_back(&lst, ft_strdup(read_buffer, '\0'));
 			return_buffer = malloc(ft_lstsize(lst) * BUFF_SIZE);
 			while (lst)
 			{
@@ -96,7 +96,7 @@ char	*get_next_line(int fd)
 				lst = lst->next;
 			}
 			ft_lstclear(&lst);
-			after_eol = ft_strdup(ft_strrchr(read_buffer, '\n'), '\0');
+			after_eol = ft_strdup(ft_strchr(read_buffer, '\n'), '\0');
 			return_buffer = ft_strdup(return_buffer, '\n');
 			//printf("return_buffer para entregar: %s\n", return_buffer);
 			//printf("after_eol: %s\n", after_eol);
@@ -105,4 +105,3 @@ char	*get_next_line(int fd)
 	}
 	return (return_buffer);
 }
-
