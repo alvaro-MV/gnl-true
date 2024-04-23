@@ -6,7 +6,7 @@
 /*   By: alvmoral <alvmoral@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:47:09 by alvaro            #+#    #+#             */
-/*   Updated: 2024/04/22 20:38:46 by alvmoral         ###   ########.fr       */
+/*   Updated: 2024/04/23 18:03:58 by alvmoral         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 
 char	*ft_strchr(const char *s, int c)
 {
+	if (s == NULL)
+		return (NULL);
 	c = (char) c;
 	while (*s)
 	{
 		if (*s == c)
-			return ((char *) s);
+			return ((char *) + 1);
 		s++;
 	}
 	if (*s == c)
@@ -36,7 +38,6 @@ void	ft_lstadd_front(t_list **lst, char *content)
 	if (new_n == NULL)
 		return ;
 	new_n->content = content;
-	new_n->next = NULL;
 	list = *lst;
 	new_n->next = list;
 	*lst = new_n;
@@ -72,15 +73,18 @@ void	ft_lstclear(t_list **lst)
 	t_list	*holder;
 	t_list	*list;
 
-	list = *lst;
-	while (list != NULL)
+	if (lst)
 	{
-		holder = list;
-		list = list->next;
-		free(holder->content);
-		free(holder);
+		list = *lst;
+		while (list != NULL)
+		{
+			holder = list;
+			list = list->next;
+			free(holder->content);
+			free(holder);
+		}
+		*lst = NULL;
 	}
-	*lst = NULL;
 }
 
 int	ft_lstsize(t_list *lst)

@@ -66,42 +66,36 @@ char	*ft_strdup(const char *s1, char c)
 
 char	*get_next_line(int fd)
 {
-	int			found;
 	static char	*after_eol;
 	char		read_buffer[BUFF_SIZE];
-	size_t		bytes_read;
 	char		*return_buffer;
 	t_list		*lst;
+	t_list		*first_node;
 
 	if (fd < 0)
 		return (NULL);
-	found = 0;
 	lst = NULL;
 	return_buffer = "";
-	bytes_read = 1;
 	if (after_eol != NULL)
 		ft_lstadd_front(&lst, after_eol);
-	while (!found && bytes_read)
+	if (ft_strchr(after_eol, '\n') == NULL)
 	{
-		bytes_read = read(fd, read_buffer, BUFF_SIZE - 2);
-		ft_lstadd_back(&lst, ft_strdup(read_buffer, '\0'));
-		// if (ft_strrchr(read_buffer, '\n') == NULL)
-		// 	ft_lstadd_back(&lst, ft_strdup(read_buffer, '\0'));
-		if (ft_strchr(read_buffer, '\n') != NULL)
+		while (read(fd, read_buffer, BUFF_SIZE - 2))
 		{
-			return_buffer = malloc(ft_lstsize(lst) * BUFF_SIZE);
-			while (lst)
-			{
-				return_buffer = append(return_buffer, lst->content);
-				lst = lst->next;
-			}
-			ft_lstclear(&lst);
-			after_eol = ft_strdup(ft_strchr(read_buffer, '\n'), '\0');
-			return_buffer = ft_strdup(return_buffer, '\n');
-			//printf("return_buffer para entregar: %s\n", return_buffer);
-			//printf("after_eol: %s\n", after_eol);
-			found = 1;
+			ft_lstadd_back(&lst, ft_strdup(read_buffer, '\0'));
+			if (ft_strchr(read_buffer, '\n') != NULL)
+				break ;
 		}
 	}
+	return_buffer = malloc(ft_lstsize(lst) * BUFF_SIZE);
+	first_node = lst;
+	while (lst)
+	{
+		return_buffer = append(return_buffer, lst->content);
+		lst = lst->next;
+	}
+	ft_lstclear(&first_node);
+	after_eol = ft_strdup(ft_strchr(return_buffer, '\n'), '\0');
+	return_buffer = ft_strdup(return_buffer, '\n');
 	return (return_buffer);
 }
