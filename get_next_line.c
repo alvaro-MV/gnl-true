@@ -61,7 +61,6 @@ char	*ft_strdup(const char *s1, char c)
 		ptr[i] = s1[i];
 		i++;
 	}
-	free((void *) s1);
 	return (ptr);
 }
 
@@ -97,10 +96,10 @@ char	*get_next_line(int fd)
 				lst = lst->next;
 			}
 			ft_lstclear(&lst);
-			after_eol = ft_strdup(ft_strchr(return_buffer, '\n'), '\0');
+			after_eol = ft_strdup(ft_strchr(read_buffer, '\n'), '\0');
 			return_buffer = ft_strdup(return_buffer, '\n');
-			// printf("return_buffer para entregar: %s\n", return_buffer);
-			// printf("after_eol: %s\n", after_eol);
+			//printf("return_buffer para entregar: %s\n", return_buffer);
+			//printf("after_eol: %s\n", after_eol);
 			found = 1;
 		}
 	}

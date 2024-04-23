@@ -9,7 +9,7 @@ int main() {
 	char	*next_line;
 	size_t	bytes_read;
 
-	fd = open("3_example.txt", O_RDONLY);
+	fd = open("segundo_ejemplo.txt", O_RDONLY);
 	next_line = get_next_line(fd);
 	printf("%s", next_line);
 	int n = 2;
@@ -27,7 +27,7 @@ int main() {
 	next_line = get_next_line(fd);
 	printf("%s", next_line);
 	close (fd);
-	//system("leaks a.out");
+	system("leaks a.out");
 	return (0);
 }
 
