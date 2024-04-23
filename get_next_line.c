@@ -49,18 +49,19 @@ char	*ft_strdup(const char *s1, char c)
 	len = 0;
 	i = 0;
 	j = 0;
+	if (s1[0] == c)
+		j = 1;
 	while (s1[len] && s1[len] != c)
 		len++;
-	// while (s1[len] == c)
-	// 	len++;
-	ptr = (char *) malloc(len + 1);
+	ptr = (char *) malloc(len + j + 1);
 	if (ptr == NULL)
 		return (NULL);
-	while (i < len)
+	while (i < (len + 1))
 	{
 		ptr[i] = s1[i];
 		i++;
 	}
+	ptr[i] = '\0';
 	return (ptr);
 }
 
