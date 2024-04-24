@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alvmoral <alvmoral@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alvaro <alvaro@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 19:43:19 by alvmoral          #+#    #+#             */
-/*   Updated: 2024/04/23 18:35:39 by alvmoral         ###   ########.fr       */
+/*   Updated: 2024/04/24 17:57:17 by alvaro           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stddef.h>
 #include <unistd.h>
 
-#define BUFF_SIZE 128
+#define BUFF_SIZE 2000
 #define FILE_PATH "/ejemplo.txt"
 
 typedef struct s_list
@@ -24,9 +24,8 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_list;
 
-char	*ft_strchr(const char *s, int c);
+char	*ft_strchr(char *s, int c);
 void	ft_lstadd_front(t_list **lst, char *content);
 void	ft_lstadd_back(t_list **lst, char *content);
-t_list	*ft_lstnew(void *content);
 void	ft_lstclear(t_list **lst);
 int		ft_lstsize(t_list *lst);

@@ -39,7 +39,7 @@ char	*append(char *s1, char *s2)
 	return (ptr - lt);
 }
 
-char	*ft_strdup(const char *s1, char c)
+char	*ft_strdup(char *s1, char c)
 {
 	char	*ptr;
 	int		len;
@@ -56,7 +56,7 @@ char	*ft_strdup(const char *s1, char c)
 	ptr = (char *) malloc(len + j + 1);
 	if (ptr == NULL)
 		return (NULL);
-	while (i < (len + 1))
+	while (i < (len + j))
 	{
 		ptr[i] = s1[i];
 		i++;
@@ -65,38 +65,59 @@ char	*ft_strdup(const char *s1, char c)
 	return (ptr);
 }
 
+void	get_lst_from_reads(int fd, t_list **lst)
+{
+    char	read_buffer[BUFF_SIZE];
+
+	while (read(fd, read_buffer, BUFF_SIZE))
+	{
+		ft_lstadd_back(lst, ft_strdup(read_buffer, '\0'));
+		if (ft_strchr(read_buffer, '\n') != NULL)
+			break ;
+	}	
+}
+
+void	fill_complete_buffer(t_list *lst, char **complete_buffer)
+{
+	t_list	*first_node;
+
+	first_node = lst;
+	while (lst)
+	{
+		*complete_buffer = append(*complete_buffer, lst->content);
+		lst = lst->next;
+	}
+	ft_lstclear(&first_node);
+}
+
 char	*get_next_line(int fd)
 {
 	static char	*after_eol;
-	char		read_buffer[BUFF_SIZE];
+	char		*complete_buffer;
 	char		*return_buffer;
 	t_list		*lst;
-	t_list		*first_node;
 
 	if (fd < 0)
 		return (NULL);
 	lst = NULL;
-	return_buffer = "";
+	complete_buffer = "";
 	if (after_eol != NULL)
 		ft_lstadd_front(&lst, after_eol);
 	if (ft_strchr(after_eol, '\n') == NULL)
-	{
-		while (read(fd, read_buffer, BUFF_SIZE - 2))
-		{
-			ft_lstadd_back(&lst, ft_strdup(read_buffer, '\0'));
-			if (ft_strchr(read_buffer, '\n') != NULL)
-				break ;
-		}
-	}
-	return_buffer = malloc(ft_lstsize(lst) * BUFF_SIZE);
-	first_node = lst;
-	while (lst)
-	{
-		return_buffer = append(return_buffer, lst->content);
-		lst = lst->next;
-	}
-	ft_lstclear(&first_node);
-	after_eol = ft_strdup(ft_strchr(return_buffer, '\n'), '\0');
-	return_buffer = ft_strdup(return_buffer, '\n');
+		get_lst_from_reads(fd, &lst);
+	complete_buffer = malloc(ft_lstsize(lst) * BUFF_SIZE);
+	fill_complete_buffer(lst, &complete_buffer);
+	after_eol = ft_strdup(ft_strchr(complete_buffer, '\n'), '\0');
+	return_buffer = ft_strdup(complete_buffer, '\n');
+	free(complete_buffer);
 	return (return_buffer);
 }
+
+/*  
+	La cuestion es que yo no puedo liberar dentro de strdup porque 
+	La cuestion es que yo tampoco puedo liberar return_buffer 
+	en el main. Porque si no pierdo el contenido de after_eol.
+
+	Es decir, tiene que haber alguna manera de gestionar la memoria
+	dentro de la funcion. 
+*/
