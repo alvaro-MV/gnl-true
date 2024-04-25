@@ -65,16 +65,22 @@ char	*ft_strdup(char *s1, char c)
 	return (ptr);
 }
 
-void	get_lst_from_reads(int fd, t_list **lst)
+int	get_lst_from_reads(int fd, t_list **lst)
 {
-    char	read_buffer[BUFF_SIZE];
+	char	read_buffer[BUFF_SIZE];
+	int		bytes_read;
 
-	while (read(fd, read_buffer, BUFF_SIZE))
+	bytes_read = 1;
+	while (bytes_read)
 	{
+		bytes_read = read(fd, read_buffer, BUFF_SIZE) - 1;
+		if (bytes_read == 0)
+			return (0);
 		ft_lstadd_back(lst, ft_strdup(read_buffer, '\0'));
 		if (ft_strchr(read_buffer, '\n') != NULL)
 			break ;
-	}	
+	}
+	return (bytes_read);
 }
 
 void	fill_complete_buffer(t_list *lst, char **complete_buffer)
@@ -96,28 +102,27 @@ char	*get_next_line(int fd)
 	char		*complete_buffer;
 	char		*return_buffer;
 	t_list		*lst;
+	int			bytes_read;
 
 	if (fd < 0)
 		return (NULL);
 	lst = NULL;
 	complete_buffer = "";
+	bytes_read = 1;
 	if (after_eol != NULL)
 		ft_lstadd_front(&lst, after_eol);
 	if (ft_strchr(after_eol, '\n') == NULL)
-		get_lst_from_reads(fd, &lst);
+		bytes_read = get_lst_from_reads(fd, &lst);
 	complete_buffer = malloc(ft_lstsize(lst) * BUFF_SIZE);
 	fill_complete_buffer(lst, &complete_buffer);
 	after_eol = ft_strdup(ft_strchr(complete_buffer, '\n'), '\0');
 	return_buffer = ft_strdup(complete_buffer, '\n');
+
 	free(complete_buffer);
 	return (return_buffer);
 }
 
-/*  
-	La cuestion es que yo no puedo liberar dentro de strdup porque 
-	La cuestion es que yo tampoco puedo liberar return_buffer 
-	en el main. Porque si no pierdo el contenido de after_eol.
-
-	Es decir, tiene que haber alguna manera de gestionar la memoria
-	dentro de la funcion. 
+/*
+	Si bytes_read es 0, entonces puede haber after_eol, por lo que no podemos returnear tan fácil.
+	Pero se puede meter una flag para controlar ,
 */

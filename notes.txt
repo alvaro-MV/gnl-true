@@ -1,9 +1,3 @@
-One common cause for such issues is the difference in how Windows and Linux handle file encodings.
-Windows typically uses UTF-16 for its file systems, while Linux (and thus WSL) uses UTF-8. 
-When you read a file that contains characters outside the ASCII range, the encoding mismatch can lead to unexpected characters being introduced into the text.
-
-To address this issue, you can try the following approaches:
-
-    Ensure Consistent Encoding: Make sure that the file you are reading is saved with UTF-8 encoding. This can be done using text editors that allow you to specify the encoding of the file.
-
-    Use WSL's Terminal: If you're viewing the output in a terminal, e
+abcdsoisiggwrg
+Olaldg
+kkkkkksdkdmgpksmgpms<rgpçmsrsphmpsrpmh

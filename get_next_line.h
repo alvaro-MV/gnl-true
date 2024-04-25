@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alvaro <alvaro@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alvmoral <alvmoral@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 19:43:19 by alvmoral          #+#    #+#             */
-/*   Updated: 2024/04/24 17:57:17 by alvaro           ###   ########.fr       */
+/*   Updated: 2024/04/25 20:04:16 by alvmoral         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 #include <stddef.h>
 #include <unistd.h>
 
-#define BUFF_SIZE 2000
+# ifndef BUFF_SIZE
+#  define BUFF_SIZE 10
+# endif
 #define FILE_PATH "/ejemplo.txt"
 
 typedef struct s_list

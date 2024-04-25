@@ -12,7 +12,7 @@ int main(void) {
 	size_t	bytes_read;
 
 	fd = open("notes.txt", O_RDONLY);
-	int	n = 9;
+	int	n = 2;
 	while (n--)
 	{
 		next_line = get_next_line(fd);
