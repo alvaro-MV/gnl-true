@@ -6,7 +6,7 @@
 /*   By: alvmoral <alvmoral@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:45:45 by alvaro            #+#    #+#             */
-/*   Updated: 2024/04/26 12:35:35 by alvmoral         ###   ########.fr       */
+/*   Updated: 2024/04/26 13:19:43 by alvmoral         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ char	*ft_strdup(char *s1, char c)
 	len = 0;
 	i = 0;
 	j = 0;
-//	if (s1[0] == c)
-//		j = 1;
 	while (s1[len] && s1[len] != c)
 		len++;
 	ptr = (char *) malloc(len + 2);
@@ -112,12 +110,15 @@ char	*get_next_line(int fd)
 	if (after_eol != NULL)
 		ft_lstadd_front(&lst, after_eol);
 	if (ft_strchr(after_eol, '\n') == NULL)
+	{
 		bytes_read = get_lst_from_reads(fd, &lst);
+		if (bytes_read == 0)
+			return (ft_strdup("", '\0'));
+	}
 	complete_buffer = malloc(ft_lstsize(lst) * BUFF_SIZE);
 	fill_complete_buffer(lst, &complete_buffer);
 	after_eol = ft_strdup(ft_strchr(complete_buffer, '\n'), '\0');
 	return_buffer = ft_strdup(complete_buffer, '\n');
-	
 	free(complete_buffer);
 	return (return_buffer);
 }
@@ -125,4 +126,8 @@ char	*get_next_line(int fd)
 /*
 	Si bytes_read es 0, entonces puede haber after_eol, por lo que no podemos returnear tan fácil.
 	Pero se puede meter una flag para controlar ,
+	
+	Yo lo que quiero es generar que cuando lea 0, solo procese el after_eol. Si no hay after eol. No se puede devolver el
+	after_eol porque luego lo liberas; tampoco puedes alocar memoria de si mismo, porque luego lo liberas.
+	Por lo tanto, 
 */

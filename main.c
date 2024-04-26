@@ -11,15 +11,17 @@ int main(void) {
 	char	*next_line;
 	size_t	bytes_read;
 
-	fd = open("notes.txt", O_RDONLY);
-	int	n = 3;
+	fd = open("segundo_ejemplo.txt", O_RDONLY);
+	int	n = 15;
 	while (n--)
 	{
 		next_line = get_next_line(fd);
 		printf("%s", next_line);
 		free(next_line);
 	}
-	system("leaks a.out");
+	printf("Hol que tal.");
+	printf("Comprobando que todo esta bien");
+	//system("leaks a.out");
 	close (fd);
 	return (0);
 }
