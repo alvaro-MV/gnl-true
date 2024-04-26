@@ -6,7 +6,7 @@
 /*   By: alvmoral <alvmoral@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:45:45 by alvaro            #+#    #+#             */
-/*   Updated: 2024/04/20 20:06:38by alvmoral         ###   ########.fr       */
+/*   Updated: 2024/04/26 12:35:35 by alvmoral         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,14 @@ char	*ft_strdup(char *s1, char c)
 	len = 0;
 	i = 0;
 	j = 0;
-	if (s1[0] == c)
-		j = 1;
+//	if (s1[0] == c)
+//		j = 1;
 	while (s1[len] && s1[len] != c)
 		len++;
-	ptr = (char *) malloc(len + j + 1);
+	ptr = (char *) malloc(len + 2);
 	if (ptr == NULL)
 		return (NULL);
-	while (i < (len + j))
+	while (i < (len + 1))
 	{
 		ptr[i] = s1[i];
 		i++;
@@ -73,7 +73,7 @@ int	get_lst_from_reads(int fd, t_list **lst)
 	bytes_read = 1;
 	while (bytes_read)
 	{
-		bytes_read = read(fd, read_buffer, BUFF_SIZE) - 1;
+		bytes_read = read(fd, read_buffer, BUFF_SIZE);
 		if (bytes_read == 0)
 			return (0);
 		ft_lstadd_back(lst, ft_strdup(read_buffer, '\0'));
@@ -117,7 +117,7 @@ char	*get_next_line(int fd)
 	fill_complete_buffer(lst, &complete_buffer);
 	after_eol = ft_strdup(ft_strchr(complete_buffer, '\n'), '\0');
 	return_buffer = ft_strdup(complete_buffer, '\n');
-
+	
 	free(complete_buffer);
 	return (return_buffer);
 }

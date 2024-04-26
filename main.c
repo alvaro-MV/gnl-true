@@ -12,13 +12,14 @@ int main(void) {
 	size_t	bytes_read;
 
 	fd = open("notes.txt", O_RDONLY);
-	int	n = 2;
+	int	n = 3;
 	while (n--)
 	{
 		next_line = get_next_line(fd);
 		printf("%s", next_line);
 		free(next_line);
 	}
+	system("leaks a.out");
 	close (fd);
 	return (0);
 }

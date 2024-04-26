@@ -6,7 +6,7 @@
 /*   By: alvmoral <alvmoral@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 19:43:19 by alvmoral          #+#    #+#             */
-/*   Updated: 2024/04/25 20:04:16 by alvmoral         ###   ########.fr       */
+/*   Updated: 2024/04/26 12:34:11 by alvmoral         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <unistd.h>
 
 # ifndef BUFF_SIZE
-#  define BUFF_SIZE 10
+#  define BUFF_SIZE 29254
 # endif
 #define FILE_PATH "/ejemplo.txt"
 
