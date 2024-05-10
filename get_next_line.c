@@ -44,11 +44,9 @@ char	*ft_strdup(char *s1, char c)
 	char	*ptr;
 	int		len;
 	int		i;
-	int		j;
 
 	len = 0;
 	i = 0;
-	j = 0;
 	while (s1[len] && s1[len] != c)
 		len++;
 	ptr = (char *) malloc(len + 2);
@@ -65,13 +63,14 @@ char	*ft_strdup(char *s1, char c)
 
 int	get_lst_from_reads(int fd, t_list **lst)
 {
-	char	read_buffer[BUFF_SIZE];
+	char	read_buffer[BUFF_SIZE + 1];
 	int		bytes_read;
 
 	bytes_read = 1;
 	while (bytes_read)
 	{
 		bytes_read = read(fd, read_buffer, BUFF_SIZE);
+		read_buffer[BUFF_SIZE] = '\0';
 		if (bytes_read == 0)
 			return (0);
 		ft_lstadd_back(lst, ft_strdup(read_buffer, '\0'));
