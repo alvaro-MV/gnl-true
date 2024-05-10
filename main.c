@@ -27,7 +27,6 @@ int main() {
 	next_line = get_next_line(fd);
 	printf("%s", next_line);
 	close (fd);
-	system("leaks a.out");
 	return (0);
 }
 

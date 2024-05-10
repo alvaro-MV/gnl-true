@@ -64,11 +64,30 @@ char	*ft_strdup(const char *s1, char c)
 	return (ptr);
 }
 
+void	*ft_memcpy(void *dst, const void *src, size_t n)
+{
+	unsigned char	*ptrdst;
+	unsigned char	*ptrsrc;
+	size_t			i;
+
+	if (dst == NULL && src == NULL)
+		return (NULL);
+	ptrdst = (unsigned char *) dst;
+	ptrsrc = (unsigned char *) src;
+	i = 0;
+	while (n--)
+	{
+		ptrdst[i] = ptrsrc[i];
+		i++;
+	}
+	return (ptrdst);
+}
+
 char	*get_next_line(int fd)
 {
 	int			found;
 	static char	*after_eol;
-	char		read_buffer[BUFF_SIZE];
+	char		read_buffer[BUFF_SIZE + 1];
 	size_t		bytes_read;
 	char		*return_buffer;
 	t_list		*lst;
@@ -84,6 +103,8 @@ char	*get_next_line(int fd)
 	while (!found && bytes_read)
 	{
 		bytes_read = read(fd, read_buffer, BUFF_SIZE - 2);
+		if (bytes_read == -1)
+			
 		ft_lstadd_back(&lst, ft_strdup(read_buffer, '\0'));
 		// if (ft_strrchr(read_buffer, '\n') == NULL)
 		// 	ft_lstadd_back(&lst, ft_strdup(read_buffer, '\0'));
