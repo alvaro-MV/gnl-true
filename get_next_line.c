@@ -12,31 +12,24 @@
 
 #include "get_next_line.h"
 #include <stdio.h>
+#include <string.h>
 
-char	*append(char *s1, char *s2)
-{
-	char	*ptr;
-	size_t	l1;
-	size_t	l2;
-	size_t	lt;
+char *append(char *s1, char *s2) {
+    size_t l1 = strlen(s1);  // Using strlen for clarity and safety
+    size_t l2 = strlen(s2);
+    char *ptr = malloc(l1 + l2 + 1);  // Allocate space for both strings and the null terminator
+    if (ptr == NULL) return NULL;
 
-	l1 = 0;
-	while (s1[l1])
-		l1++;
-	l2 = 0;
-	while (s2[l2])
-		l2++;
-	lt = l1 + l2;
-	ptr = (char *) malloc(lt * sizeof(char) + 1);
-	if (ptr == NULL)
-		return (NULL);
-	while (s1[l1-1])
-		*ptr++ = *s1++;
-	while (*s2)
-		*ptr++ = *s2++;
-	*ptr = '\0';
-	free(s1 - l1);
-	return (ptr - lt);
+    char *temp = ptr;  // Use a temporary pointer for manipulation to preserve the base address
+    while (*s1) {
+        *temp++ = *s1++;
+    }
+    while (*s2) {
+        *temp++ = *s2++;
+    }
+    *temp = '\0';  // Ensure the new string is null-terminated
+
+    return ptr;
 }
 
 char	*ft_strdup(char *s1, char c)
@@ -92,30 +85,45 @@ void	fill_complete_buffer(t_list *lst, char **complete_buffer)
 	ft_lstclear(&first_node);
 }
 
-char	*get_next_line(int fd)
-{
-	static char	*after_eol;
-	char		*complete_buffer;
-	char		*return_buffer;
-	t_list		*lst;
-	int			bytes_read;
+char *get_next_line(int fd) {
+    static char *after_eol = NULL;  // Initialize static variables to NULL if not already done
+    char *complete_buffer = NULL;
+    char *return_buffer = NULL;
+    t_list *lst = NULL;
+    int bytes_read = 0;
 
-	if (fd < 0)
-		return (NULL);
-	lst = NULL;
-	bytes_read = 1;
-	if (after_eol != NULL)
-		ft_lstadd_front(&lst, after_eol);
-	if (ft_strchr(after_eol, '\n') == NULL)
-		bytes_read = get_lst_from_reads(fd, &lst);
-	if (bytes_read == 0)
-		return (ft_strdup("", '\0'));
-	complete_buffer = (char *) malloc(ft_lstsize(lst) * BUFF_SIZE);
-	fill_complete_buffer(lst, &complete_buffer);
-	after_eol = ft_strdup(ft_strchr(complete_buffer, '\n'), '\0');
-	return_buffer = ft_strdup(complete_buffer, '\n');
-	free(complete_buffer);
-	return (return_buffer);
+    if (fd < 0) return NULL;
+
+    if (after_eol) {
+        if (ft_strchr(after_eol, '\n')) {
+            ft_lstadd_front(&lst, after_eol);
+        } else {
+            bytes_read = get_lst_from_reads(fd, &lst);
+        }
+    } else {
+        bytes_read = get_lst_from_reads(fd, &lst);
+    }
+
+    if (bytes_read == 0 && lst == NULL) {
+        return ft_strdup("", '\0');
+    }
+
+    complete_buffer = malloc(ft_lstsize(lst) * BUFF_SIZE);  // Ensure memory is allocated before using
+    if (complete_buffer == NULL) return NULL;  // Handle failed allocation
+    *complete_buffer = '\0';  // Initialize the buffer to be an empty string
+
+    fill_complete_buffer(lst, &complete_buffer);
+
+    if (ft_strchr(complete_buffer, '\n')) {
+        after_eol = ft_strdup(ft_strchr(complete_buffer, '\n') + 1, '\0');
+        return_buffer = ft_strdup(complete_buffer, '\n');
+    } else {
+        after_eol = NULL;
+        return_buffer = strdup(complete_buffer);
+    }
+
+    free(complete_buffer);
+    return return_buffer;
 }
 
 /*
