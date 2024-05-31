@@ -9,7 +9,7 @@ char	*ft_strchr(const char *s, int c);
 int main(void) {
 	int		fd;
 	char	*next_line;
-	//size_t	bytes_read;
+	size_t	bytes_read;
 
 	fd = open("textos/segundo_ejemplo.txt", O_RDONLY);
 	int	n = 15;
@@ -21,6 +21,7 @@ int main(void) {
 	}
 	printf("Hol que tal.");
 	printf("Comprobando que todo esta bien");
+	//system("leaks a.out");
 	close (fd);
 	return (0);
 }
@@ -31,12 +32,14 @@ int main(void) {
 	//int		fd;
 	//int		n = 3;
 
-	//fd = open("notes.txt", O_RDONLY);
-	//while (n--)
+	//fd = open("textos/notes.txt", O_RDONLY);
+	//printf("fd after while: %i\n", fd);
+	//while (fd != -1)
 	//{
 		//read(fd, read_buff, 20);
 		//printf("%s", read_buff);
 		//printf("|||");
+		//printf("%i", fd);
 	//}
 	//close(fd);
 	//return (0);

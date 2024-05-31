@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alvmoral <alvmoral@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alvaro <alvaro@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:45:45 by alvaro            #+#    #+#             */
-/*   Updated: 2024/04/26 13:19:43 by alvmoral         ###   ########.fr       */
+/*   Updated: 2024/05/31 16:41:38y alvaro           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*append(char *s1, char *s2)
 	ptr = (char *) malloc(lt * sizeof(char) + 1);
 	if (ptr == NULL)
 		return (NULL);
-	while (*s1)
+	while (s1[l1-1])
 		*ptr++ = *s1++;
 	while (*s2)
 		*ptr++ = *s2++;
@@ -63,14 +63,13 @@ char	*ft_strdup(char *s1, char c)
 
 int	get_lst_from_reads(int fd, t_list **lst)
 {
-	char	read_buffer[BUFF_SIZE + 1];
+	char	read_buffer[BUFF_SIZE];
 	int		bytes_read;
 
 	bytes_read = 1;
 	while (bytes_read)
 	{
 		bytes_read = read(fd, read_buffer, BUFF_SIZE);
-		read_buffer[BUFF_SIZE] = '\0';
 		if (bytes_read == 0)
 			return (0);
 		ft_lstadd_back(lst, ft_strdup(read_buffer, '\0'));
@@ -104,17 +103,14 @@ char	*get_next_line(int fd)
 	if (fd < 0)
 		return (NULL);
 	lst = NULL;
-	complete_buffer = "";
 	bytes_read = 1;
 	if (after_eol != NULL)
 		ft_lstadd_front(&lst, after_eol);
 	if (ft_strchr(after_eol, '\n') == NULL)
-	{
 		bytes_read = get_lst_from_reads(fd, &lst);
-		if (bytes_read == 0)
-			return (ft_strdup("", '\0'));
-	}
-	complete_buffer = malloc(ft_lstsize(lst) * BUFF_SIZE);
+	if (bytes_read == 0)
+		return (ft_strdup("", '\0'));
+	complete_buffer = (char *) malloc(ft_lstsize(lst) * BUFF_SIZE);
 	fill_complete_buffer(lst, &complete_buffer);
 	after_eol = ft_strdup(ft_strchr(complete_buffer, '\n'), '\0');
 	return_buffer = ft_strdup(complete_buffer, '\n');
