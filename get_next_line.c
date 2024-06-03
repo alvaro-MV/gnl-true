@@ -14,24 +14,6 @@
 #include <stdio.h>
 #include <string.h>
 
-char *append(char *s1, char *s2) {
-    size_t l1 = strlen(s1);  // Using strlen for clarity and safety
-    size_t l2 = strlen(s2);
-    char *ptr = malloc(l1 + l2 + 1);  // Allocate space for both strings and the null terminator
-    if (ptr == NULL) return NULL;
-
-    char *temp = ptr;  // Use a temporary pointer for manipulation to preserve the base address
-    while (*s1) {
-        *temp++ = *s1++;
-    }
-    while (*s2) {
-        *temp++ = *s2++;
-    }
-    *temp = '\0';  // Ensure the new string is null-terminated
-
-    return ptr;
-}
-
 char	*ft_strdup(char *s1, char c)
 {
 	char	*ptr;

@@ -9,9 +9,8 @@ char	*ft_strchr(const char *s, int c);
 int main(void) {
 	int		fd;
 	char	*next_line;
-	size_t	bytes_read;
 
-	fd = open("textos/segundo_ejemplo.txt", O_RDONLY);
+	fd = open("textos/linea_larga.txt", O_RDONLY);
 	int	n = 15;
 	while (n--)
 	{
