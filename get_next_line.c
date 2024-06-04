@@ -13,6 +13,18 @@
 #include "get_next_line.h"
 #include <stdio.h>
 
+void	ft_bzero(void *s, size_t n)
+{
+	if (n > 0)
+	{
+		while (n--)
+		{
+			*(char *) s = 0;
+			s++;
+		}
+	}
+}
+
 char	*ft_strdup(char *s1, char c)
 {
 	char	*ptr;
@@ -41,6 +53,7 @@ int	get_lst_from_reads(int fd, t_list **lst)
 	int		bytes_read;
 
 	bytes_read = 1;
+	ft_bzero(read_buffer, BUFF_SIZE);
 	while (bytes_read)
 	{
 		bytes_read = read(fd, read_buffer, BUFF_SIZE);
@@ -94,18 +107,10 @@ char	*get_next_line(int fd)
 	if (bytes_read == 0)
 		return (ft_strdup("", '\0'));
 	complete_buffer = (char *) malloc(BUFF_SIZE * ft_lstsize(lst) + 1);
+	ft_bzero(complete_buffer, BUFF_SIZE * ft_lstsize(lst) + 1);
 	fill_complete_buffer(lst, complete_buffer);
 	after_eol = ft_strdup(ft_strchr(complete_buffer, '\n'), '\0');
 	return_buffer = ft_strdup(complete_buffer, '\n');
 	free(complete_buffer);
 	return (return_buffer);
 }
-
-/*
-	Si bytes_read es 0, entonces puede haber after_eol, por lo que no podemos returnear tan fácil.
-	Pero se puede meter una flag para controlar ,
-	
-	Yo lo que quiero es generar que cuando lea 0, solo procese el after_eol. Si no hay after eol. No se puede devolver el
-	after_eol porque luego lo liberas; tampoco puedes alocar memoria de si mismo, porque luego lo liberas.
-	Por lo tanto, 
-*/
