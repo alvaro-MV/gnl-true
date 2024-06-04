@@ -13,32 +13,6 @@
 #include "get_next_line.h"
 #include <stdio.h>
 
-char	*append(char *s1, char *s2)
-{
-	char	*ptr;
-	size_t	l1;
-	size_t	l2;
-	size_t	lt;
-
-	l1 = 0;
-	while (s1[l1])
-		l1++;
-	l2 = 0;
-	while (s2[l2])
-		l2++;
-	lt = l1 + l2;
-	ptr = (char *) malloc(lt * sizeof(char) + 1);
-	if (ptr == NULL)
-		return (NULL);
-	while (s1[l1-1])
-		*ptr++ = *s1++;
-	while (*s2)
-		*ptr++ = *s2++;
-	*ptr = '\0';
-	free(s1 - l1);
-	return (ptr - lt);
-}
-
 char	*ft_strdup(char *s1, char c)
 {
 	char	*ptr;
@@ -79,14 +53,23 @@ int	get_lst_from_reads(int fd, t_list **lst)
 	return (bytes_read);
 }
 
-void	fill_complete_buffer(t_list *lst, char **complete_buffer)
+void	fill_complete_buffer(t_list *lst, char *complete_buffer)
 {
 	t_list	*first_node;
+	char	*lst_content;
+	int		i;
 
+	i = 0;
 	first_node = lst;
 	while (lst)
 	{
-		*complete_buffer = append(*complete_buffer, lst->content);
+		lst_content = lst->content;
+		while (*lst_content)
+		{
+			complete_buffer[i] = *lst_content;
+			i++;
+			lst_content++;
+		}
 		lst = lst->next;
 	}
 	ft_lstclear(&first_node);
@@ -110,8 +93,8 @@ char	*get_next_line(int fd)
 		bytes_read = get_lst_from_reads(fd, &lst);
 	if (bytes_read == 0)
 		return (ft_strdup("", '\0'));
-	complete_buffer = (char *) malloc(ft_lstsize(lst) * BUFF_SIZE);
-	fill_complete_buffer(lst, &complete_buffer);
+	complete_buffer = (char *) malloc(BUFF_SIZE * ft_lstsize(lst) + 1);
+	fill_complete_buffer(lst, complete_buffer);
 	after_eol = ft_strdup(ft_strchr(complete_buffer, '\n'), '\0');
 	return_buffer = ft_strdup(complete_buffer, '\n');
 	free(complete_buffer);
