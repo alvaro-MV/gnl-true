@@ -19,8 +19,7 @@ int main(void) {
 		printf("%s", next_line);
 		free(next_line);
 	}
-	printf("Hol que tal.");
-	printf("Comprobando que todo esta bien");
+	printf("\n--------------------------------");
 	//system("leaks a.out");
 	close (fd);
 	return (0);

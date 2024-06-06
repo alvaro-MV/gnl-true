@@ -103,12 +103,13 @@ char	*get_next_line(int fd)
 		ft_lstadd_front(&lst, after_eol);
 	if (ft_strchr(after_eol, '\n') == NULL)
 		bytes_read = get_lst_from_reads(fd, &lst);
-	if (bytes_read == 0)
-		return (ft_strdup("", '\0'));
 	complete_buffer = (char *) malloc(BUFF_SIZE * ft_lstsize(lst) + 1);
 	ft_bzero(complete_buffer, BUFF_SIZE * ft_lstsize(lst) + 1);
 	fill_complete_buffer(lst, complete_buffer);
-	after_eol = ft_strdup(ft_strchr(complete_buffer, '\n'), '\0');
+	if (bytes_read == 0)
+		after_eol = ft_strdup("", '\0');
+	else
+		after_eol = ft_strdup(ft_strchr(complete_buffer, '\n'), '\0');
 	return_buffer = ft_strdup(complete_buffer, '\n');
 	free(complete_buffer);
 	return (return_buffer);
