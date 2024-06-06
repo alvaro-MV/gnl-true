@@ -10,15 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stddef.h>
-#include <unistd.h>
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-# ifndef BUFF_SIZE
-#  define BUFF_SIZE 29254
+# include <stdio.h>
+# include <stdlib.h>
+# include <stddef.h>
+# include <unistd.h>
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 29254
 # endif
-#define FILE_PATH "textos/ejemplo.txt"
+# define FILE_PATH "textos/ejemplo.txt"
 
 typedef struct s_list
 {
@@ -32,3 +35,5 @@ void	ft_lstadd_front(t_list **lst, char *content);
 void	ft_lstadd_back(t_list **lst, char *content);
 void	ft_lstclear(t_list **lst);
 int		ft_lstsize(t_list *lst);
+
+#endif

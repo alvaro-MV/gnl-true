@@ -11,15 +11,14 @@ int main(void) {
 	char	*next_line;
 	size_t	bytes_read;
 
-	fd = open("textos/notes.txt", O_RDONLY);
-	int	n = 15;
+	fd = open("textos/abcd.txt", O_RDONLY);
+	int	n = 16;
 	while (n--)
 	{
 		next_line = get_next_line(fd);
 		printf("%s", next_line);
 		free(next_line);
 	}
-	printf("\n--------------------------------");
 	//system("leaks a.out");
 	close (fd);
 	return (0);

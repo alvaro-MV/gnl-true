@@ -83,7 +83,6 @@ void	ft_lstclear(t_list **lst)
 			free(holder->content);
 			free(holder);
 		}
-		//*lst = NULL;
 	}
 }
 
