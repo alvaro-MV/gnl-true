@@ -6,7 +6,7 @@
 /*   By: alvmoral <alvmoral@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:37:28 by alvmoral          #+#    #+#             */
-/*   Updated: 2024/06/07 18:17:00 by alvmoral         ###   ########.fr       */
+/*   Updated: 2024/06/07 19:35:24 by alvmoral         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,8 @@ char	*get_next_line(int fd)
 		ft_lstadd_front(&lst, after_eol);
 	if (ft_strchr(after_eol, '\n') == NULL)
 		bytes_read = get_lst_from_reads(fd, &lst);
-	complete_buffer = (char *) malloc(BUFFER_SIZE * ft_lstsize(lst) + 1);
-	ft_bzero(complete_buffer, BUFFER_SIZE * ft_lstsize(lst) + 1);
+	complete_buffer = (char *) malloc(BUFFER_SIZE * ft_lstsize(lst) + 2);	
+	ft_bzero(complete_buffer, BUFFER_SIZE * ft_lstsize(lst) + 2);
 	fill_complete_buffer(lst, complete_buffer);
 	if (bytes_read == 0)
 		after_eol = '\0';
