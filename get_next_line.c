@@ -6,7 +6,7 @@
 /*   By: alvmoral <alvmoral@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:37:28 by alvmoral          #+#    #+#             */
-/*   Updated: 2024/06/06 16:37:32 by alvmoral         ###   ########.fr       */
+/*   Updated: 2024/06/07 18:17:00 by alvmoral         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,10 @@ int	get_lst_from_reads(int fd, t_list **lst)
 	while (bytes_read)
 	{
 		bytes_read = read(fd, read_buffer, BUFFER_SIZE);
+		//printf("bytes_readed: %i,   read_buffer: %s\n", bytes_read, read_buffer);
 		if (bytes_read == 0)
 			return (0);
+		read_buffer[bytes_read] = '\0';
 		ft_lstadd_back(lst, ft_strdup(read_buffer, '\0'));
 		if (ft_strchr(read_buffer, '\n') != NULL)
 			break ;
