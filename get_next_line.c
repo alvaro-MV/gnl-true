@@ -6,11 +6,12 @@
 /*   By: alvmoral <alvmoral@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:37:28 by alvmoral          #+#    #+#             */
-/*   Updated: 2024/06/07 19:35:24 by alvmoral         ###   ########.fr       */
+/*   Updated: 2024/06/07 20:04:03by alvmoral         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <string.h>
 
 void	ft_bzero(void *s, size_t n)
 {
@@ -35,6 +36,7 @@ char	*ft_strdup(char *s1, char c)
 	while (s1[len] && s1[len] != c)
 		len++;
 	ptr = (char *) malloc(sizeof(char) * (len + 2));
+	ft_bzero(ptr, len + 2);
 	if (ptr == NULL)
 		return (NULL);
 	while (i < (len + 1))
@@ -42,7 +44,6 @@ char	*ft_strdup(char *s1, char c)
 		ptr[i] = s1[i];
 		i++;
 	}
-	ptr[i] = '\0';
 	return (ptr);
 }
 
@@ -56,7 +57,6 @@ int	get_lst_from_reads(int fd, t_list **lst)
 	while (bytes_read)
 	{
 		bytes_read = read(fd, read_buffer, BUFFER_SIZE);
-		//printf("bytes_readed: %i,   read_buffer: %s\n", bytes_read, read_buffer);
 		if (bytes_read == 0)
 			return (0);
 		read_buffer[bytes_read] = '\0';
