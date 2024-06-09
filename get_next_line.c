@@ -44,6 +44,8 @@ char	*ft_strdup(char *s1, char c)
 		ptr[i] = s1[i];
 		i++;
 	}
+	if (s1[len] != c && len > 0)
+		ptr[len] = c;
 	return (ptr);
 }
 
