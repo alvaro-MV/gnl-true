@@ -27,7 +27,7 @@ int main(void) {
 	char	*next_line;
 	size_t	bytes_read;
 
-	fd = open("textos/abcd.txt", O_RDONLY);
+	fd = open("textos/segundo_ejemplo.txt", O_RDONLY);
 	int	n = 16;
 	while (n--)
 	{
