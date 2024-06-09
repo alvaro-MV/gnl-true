@@ -38,10 +38,10 @@ int main(void) {
 
 	while (ft_strncmp(next_line = get_next_line(fd), "") != 0)
 	{
-		//next_line = get_next_line(fd);
 		printf("%s", next_line);
 		free(next_line);
 	}
+	free(next_line);
 	close (fd);
 	return (0);
 }
