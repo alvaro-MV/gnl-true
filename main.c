@@ -28,20 +28,20 @@ int main(void) {
 	size_t	bytes_read;
 
 	fd = open("textos/quijote.txt", O_RDONLY);
-//	int	n = 16;
-	//while (n--)
-	//{
-		//next_line = get_next_line(fd);
-		//printf("%s", next_line);
-		//free(next_line);
-	//}
+	int	n = 4;
+	while (n--)
+	{
+		next_line = get_next_line(100);
+		printf("%s", next_line);
+		free(next_line);
+	}
 
-	while (ft_strncmp(next_line = get_next_line(fd), "") != 0)
+/* 	while (ft_strncmp(next_line = get_next_line(fd), "") != 0)
 	{
 		printf("%s", next_line);
 		free(next_line);
 	}
-	free(next_line);
+	free(next_line); */
 	close (fd);
 	return (0);
 }
