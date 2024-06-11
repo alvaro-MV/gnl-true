@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alvmoral <alvmoral@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/20 19:43:19 by alvmoral          #+#    #+#             */
-/*   Updated: 2024/06/11 16:24:10 by alvmoral         ###   ########.fr       */
+/*   Created: 2024/06/11 17:37:26 by alvmoral          #+#    #+#             */
+/*   Updated: 2024/06/11 17:38:32 by alvmoral         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# include <stdio.h>
 # include <stdlib.h>
 # include <stddef.h>
 # include <unistd.h>
+#include <sys/select.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1000
+#  define BUFFER_SIZE 42
 # endif
 # define FILE_PATH "textos/ejemplo.txt"
 

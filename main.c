@@ -23,44 +23,42 @@ int	ft_strncmp(char	*s1, char	*s2)
 }
 
 int main(void) {
-	int		fd;
+	int		fd_1;
+	int		fd_2;
 	char	*next_line;
 	size_t	bytes_read;
 
-	fd = open("textos/quijote.txt", O_RDONLY);
+	fd_1 = open("textos/aer.txt", O_RDONLY);
+	fd_2 = open("textos/ejemplo.txt", O_RDONLY);
 	int	n = 4;
-	while (n--)
-	{
-		next_line = get_next_line(100);
-		printf("%s", next_line);
-		free(next_line);
-	}
+	next_line = get_next_line(fd_1);
+	printf("Next line: %s", next_line);
+	free(next_line);
+	next_line = get_next_line(fd_2);
+	printf("Next line: %s\n\n", next_line);
+	free(next_line);
 
-/* 	while (ft_strncmp(next_line = get_next_line(fd), "") != 0)
-	{
-		printf("%s", next_line);
-		free(next_line);
-	}
-	free(next_line); */
-	close (fd);
+	next_line = get_next_line(fd_1);
+	printf("Next line: %s", next_line);
+	free(next_line);
+	next_line = get_next_line(fd_2);
+	printf("Next line: %s", next_line);
+	free(next_line);
+//	while (n--)
+	//{
+		//next_line = get_next_line(100);
+		//printf("%s", next_line);
+		//free(next_line);
+	//}
+
+// 	while (ft_strncmp(next_line = get_next_line(fd), "") != 0)
+	//{
+		//printf("%s", next_line);
+		//free(next_line);
+	//}
+	//free(next_line);
+	close(fd_1);
+	close(fd_2);
+
 	return (0);
 }
-
-// int	main(void)
- //{
-	//char	read_buff[20];
-	//int		fd;
-	//int		n = 3;
-
-	//fd = open("textos/notes.txt", O_RDONLY);
-	//printf("fd after while: %i\n", fd);
-	//while (fd != -1)
-	//{
-		//read(fd, read_buff, 20);
-		//printf("%s", read_buff);
-		//printf("|||");
-		//printf("%i", fd);
-	//}
-	//close(fd);
-	//return (0);
- //}

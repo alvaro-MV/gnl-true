@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alvmoral <alvmoral@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/06 16:37:28 by alvmoral          #+#    #+#             */
-/*   Updated: 2024/06/07 20:04:03by alvmoral         ###   ########.fr       */
+/*   Created: 2024/06/11 17:37:34 by alvmoral          #+#    #+#             */
+/*   Updated: 2024/06/11 18:19:26 by alvmoral         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include <sys/select.h>
+#include "get_next_line_bonus.h"
 
 void	ft_bzero(void *s, size_t n)
 {
@@ -92,7 +93,7 @@ void	fill_complete_buffer(t_list *lst, char *complete_buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*after_eol;
+	static char	*after_eol[FD_SETSIZE];
 	char		*complete_buffer;
 	char		*return_buffer;
 	t_list		*lst;
@@ -102,17 +103,17 @@ char	*get_next_line(int fd)
 		return (NULL);
 	lst = NULL;
 	bytes_read = 1;
-	if (after_eol != NULL)
-		ft_lstadd_front(&lst, after_eol);
-	if (ft_strchr(after_eol, '\n') == NULL)
+	if (after_eol[fd] != NULL)
+		ft_lstadd_front(&lst, after_eol[fd]);
+	if (ft_strchr(after_eol[fd], '\n') == NULL)
 		bytes_read = get_lst_from_reads(fd, &lst);
 	complete_buffer = (char *) malloc(BUFFER_SIZE * ft_lstsize(lst) + 2);	
 	ft_bzero(complete_buffer, BUFFER_SIZE * ft_lstsize(lst) + 2);
 	fill_complete_buffer(lst, complete_buffer);
 	if (bytes_read == 0)
-		after_eol = '\0';
+		after_eol[fd] = "";
 	else
-		after_eol = ft_strdup(ft_strchr(complete_buffer, '\n'), '\0');
+		after_eol[fd] = ft_strdup(ft_strchr(complete_buffer, '\n'), '\0');
 	return_buffer = ft_strdup(complete_buffer, '\n');
 	free(complete_buffer);
 	return (return_buffer);
