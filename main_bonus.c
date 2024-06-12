@@ -1,10 +1,9 @@
 #include <fcntl.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include "get_next_line.h"
 
+char	*get_next_line(int fd);
 char	*ft_strdup(const char *s1, char c);
+char	*ft_strchr(const char *s, int c);
 
 int	ft_strncmp(char	*s1, char	*s2)
 {
@@ -23,23 +22,35 @@ int	ft_strncmp(char	*s1, char	*s2)
 
 int main(void) {
 	int		fd_1;
+	int		fd_2;
 	char	*next_line;
 	size_t	bytes_read;
 
-	fd_1 = open("textos/abcd.txt", O_RDONLY);
-	int	n = 1;
+	fd_1 = open("textos/aer.txt", O_RDONLY);
+	fd_2 = open("textos/ejemplo.txt", O_RDONLY);
+	int	n = 4;
 	while (n--)
 	{
 		next_line = get_next_line(fd_1);
 		printf("Next line: %s", next_line);
 		free(next_line);
+		next_line = get_next_line(fd_2);
+		printf("Next line: %s\n\n", next_line);
+		free(next_line);
 	}
-// 	while (ft_strncmp(next_line = get_next_line(fd), "") != 0)
+	// 	while (ft_strncmp(next_line = get_next_line(fd_2), "") != 0)
+	//{
+		//printf("%s", next_line);
+		//free(next_line);
+	//}
+	//free(next_line);
+// 	while (ft_strncmp(next_line = get_next_line(fd_2), "") != 0)
 	//{
 		//printf("%s", next_line);
 		//free(next_line);
 	//}
 	//free(next_line);
 	close(fd_1);
+	close(fd_2);
 	return (0);
 }
