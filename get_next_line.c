@@ -51,19 +51,24 @@ char	*ft_strdup(char *s1, char c)
 int	get_lst_from_reads(int fd, t_list **lst)
 {
 	char	read_buffer[BUFFER_SIZE];
+	t_list	*last_node;
 	int		bytes_read;
+	int		eol_present;
 
 	bytes_read = 1;
 	ft_bzero(read_buffer, BUFFER_SIZE);
+	last_node = *lst;
 	while (bytes_read)
 	{
 		bytes_read = read(fd, read_buffer, BUFFER_SIZE);
 		if (bytes_read == 0)
 			return (0);
 		read_buffer[bytes_read] = '\0';
-		ft_lstadd_back(lst, ft_strdup(read_buffer, '\0'));
-		if (ft_strchr(read_buffer, '\n') != NULL)
+		ft_lstadd_back(&last_node, ft_strdup(read_buffer, '\0'));
+		eol_present = ft_strchr(read_buffer, '\n') != NULL;
+		if (eol_present)
 			break ;
+		last_node = last_node->next;
 	}
 	return (bytes_read);
 }
@@ -81,7 +86,8 @@ void	fill_buffers(t_list *lst, char *return_buffer, char *after_eol)
 		lst_content = lst->content;
 		while (*lst_content && *lst_content != '\n')
 			return_buffer[i++] = *lst_content++;
-		return_buffer[i] = *lst_content++;
+		return_buffer[i] = '\n';
+		*lst_content++;
 		if (*lst_content == '\n')
 			break ;
 		lst = lst->next;
@@ -108,10 +114,7 @@ char	*get_next_line(int fd)
 	lst = NULL;
 	bytes_read = 1;
 	if (after_eol != NULL)
-	{
 		ft_lstadd_front(&lst, ft_strdup(after_eol, '\0'));
-		//ft_bzero(after_eol, BUFFER_SIZE);
-	}
 	if (ft_strchr(after_eol, '\n') == NULL)
 		bytes_read = get_lst_from_reads(fd, &lst);
 	return_buffer = (char *) malloc(BUFFER_SIZE * ft_lstsize(lst) + 2);
@@ -119,5 +122,10 @@ char	*get_next_line(int fd)
 	fill_buffers(lst, return_buffer, after_eol);
 	if (bytes_read == 0)
 		after_eol[0] = '\0';
+	if (return_buffer[0] == '\n' && bytes_read == 0)
+	{
+		free(return_buffer);
+		return (NULL);
+	}
 	return (return_buffer);
 }

@@ -6,7 +6,7 @@
 /*   By: alvmoral <alvmoral@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 17:37:34 by alvmoral          #+#    #+#             */
-/*   Updated: 2024/06/11 18:19:26 by alvmoral         ###   ########.fr       */
+/*   Updated: 2024/06/17 18:57:58 by alvmoral         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,13 @@ char	*ft_strdup(char *s1, char c)
 int	get_lst_from_reads(int fd, t_list **lst)
 {
 	char	read_buffer[BUFFER_SIZE];
+	t_list	*last_node;
 	int		bytes_read;
+	int		eol_present;
 
 	bytes_read = 1;
 	ft_bzero(read_buffer, BUFFER_SIZE);
+	last_node = *lst;
 	while (bytes_read)
 	{
 		bytes_read = read(fd, read_buffer, BUFFER_SIZE);
@@ -63,13 +66,15 @@ int	get_lst_from_reads(int fd, t_list **lst)
 			return (0);
 		read_buffer[bytes_read] = '\0';
 		ft_lstadd_back(lst, ft_strdup(read_buffer, '\0'));
-		if (ft_strchr(read_buffer, '\n') != NULL)
+		eol_present = ft_strchr(read_buffer, '\n') != NULL;
+		if (eol_present)
 			break ;
+		last_node = last_node->next;
 	}
 	return (bytes_read);
 }
 
-void	fill_complete_buffer(t_list *lst, char *complete_buffer)
+void	fill_buffers(t_list *lst, char *return_buffer, char *after_eol)
 {
 	t_list	*first_node;
 	char	*lst_content;
@@ -80,21 +85,27 @@ void	fill_complete_buffer(t_list *lst, char *complete_buffer)
 	while (lst)
 	{
 		lst_content = lst->content;
-		while (*lst_content)
-		{
-			complete_buffer[i] = *lst_content;
-			i++;
-			lst_content++;
-		}
+		while (*lst_content && *lst_content != '\n')
+			return_buffer[i++] = *lst_content++;
+		return_buffer[i] = '\n';
+		*lst_content++;
+		if (*lst_content == '\n')
+			break ;
 		lst = lst->next;
 	}
+	i = 0;
+	while (*lst_content)
+	{
+		after_eol[i] = *lst_content++;
+		i++;
+	}
+	after_eol[i] = '\0';
 	ft_lstclear(&first_node);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*after_eol[FD_SETSIZE];
-	char		*complete_buffer;
+	static char	after_eol[FD_SETSIZE][BUFFER_SIZE];
 	char		*return_buffer;
 	t_list		*lst;
 	int			bytes_read;
@@ -104,17 +115,18 @@ char	*get_next_line(int fd)
 	lst = NULL;
 	bytes_read = 1;
 	if (after_eol[fd] != NULL)
-		ft_lstadd_front(&lst, after_eol[fd]);
+		ft_lstadd_front(&lst, ft_strdup(after_eol[fd], '\0'));
 	if (ft_strchr(after_eol[fd], '\n') == NULL)
 		bytes_read = get_lst_from_reads(fd, &lst);
-	complete_buffer = (char *) malloc(BUFFER_SIZE * ft_lstsize(lst) + 2);	
-	ft_bzero(complete_buffer, BUFFER_SIZE * ft_lstsize(lst) + 2);
-	fill_complete_buffer(lst, complete_buffer);
+	return_buffer = (char *) malloc(BUFFER_SIZE * ft_lstsize(lst) + 2);
+	ft_bzero(return_buffer, BUFFER_SIZE * (ft_lstsize(lst) - 1) + 2);
+	fill_buffers(lst, return_buffer, after_eol[fd]);
 	if (bytes_read == 0)
-		after_eol[fd] = "";
-	else
-		after_eol[fd] = ft_strdup(ft_strchr(complete_buffer, '\n'), '\0');
-	return_buffer = ft_strdup(complete_buffer, '\n');
-	free(complete_buffer);
+		after_eol[fd][0] = '\0';
+	if (return_buffer[0] == '\n' && bytes_read == 0)
+	{
+		free(return_buffer);
+		return (NULL);
+	}
 	return (return_buffer);
 }

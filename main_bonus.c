@@ -1,9 +1,8 @@
 #include <fcntl.h>
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
+#include <stdio.h>
 
-char	*get_next_line(int fd);
 char	*ft_strdup(const char *s1, char c);
-char	*ft_strchr(const char *s, int c);
 
 int	ft_strncmp(char	*s1, char	*s2)
 {
@@ -32,10 +31,10 @@ int main(void) {
 	while (n--)
 	{
 		next_line = get_next_line(fd_1);
-		printf("Next line: %s", next_line);
+		printf("%s", next_line);
 		free(next_line);
 		next_line = get_next_line(fd_2);
-		printf("Next line: %s\n\n", next_line);
+		printf("%s\n\n", next_line);
 		free(next_line);
 	}
 	// 	while (ft_strncmp(next_line = get_next_line(fd_2), "") != 0)
