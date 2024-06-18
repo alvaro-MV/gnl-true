@@ -1,4 +1,5 @@
 a.out*
+*.swp
 .vscode
 valgrind_logs
 quijote_one_line.txt

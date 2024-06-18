@@ -6,17 +6,17 @@
 /*   By: alvmoral <alvmoral@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 17:37:26 by alvmoral          #+#    #+#             */
-/*   Updated: 2024/06/11 17:38:32 by alvmoral         ###   ########.fr       */
+/*   Updated: 2024/06/18 12:02:25 by alvmoral         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
 # include <stdlib.h>
 # include <stddef.h>
 # include <unistd.h>
-#include <sys/select.h>
+# include <sys/select.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42

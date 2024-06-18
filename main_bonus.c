@@ -25,8 +25,8 @@ int main(void) {
 	char	*next_line;
 	size_t	bytes_read;
 
-	fd_1 = open("textos/aer.txt", O_RDONLY);
-	fd_2 = open("textos/ejemplo.txt", O_RDONLY);
+	fd_1 = open("textos/bonus_log.txt", O_RDONLY);
+	fd_2 = open("textos/quiolin.txt", O_RDONLY);
 	int	n = 4;
 	while (n--)
 	{
@@ -34,7 +34,7 @@ int main(void) {
 		printf("%s", next_line);
 		free(next_line);
 		next_line = get_next_line(fd_2);
-		printf("%s\n\n", next_line);
+		printf("%s", next_line);
 		free(next_line);
 	}
 	// 	while (ft_strncmp(next_line = get_next_line(fd_2), "") != 0)

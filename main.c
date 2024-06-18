@@ -27,7 +27,7 @@ int main(void)
 	char	*next_line;
 	size_t	bytes_read;
 
-	fd_1 = open("textos/aer.txt", O_RDONLY);
+	fd_1 = open("textos/quiolin.txt", O_RDONLY);
 	int	n = 10;
 	while (n--)
 	{
