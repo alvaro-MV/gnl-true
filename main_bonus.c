@@ -30,10 +30,10 @@ int main(void) {
 	int	n = 4;
 	while (n--)
 	{
-		next_line = get_next_line(fd_1);
+		next_line = get_next_line(45);
 		printf("%s", next_line);
 		free(next_line);
-		next_line = get_next_line(fd_2);
+		next_line = get_next_line(46);
 		printf("%s", next_line);
 		free(next_line);
 	}

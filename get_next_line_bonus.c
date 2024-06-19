@@ -6,7 +6,7 @@
 /*   By: alvmoral <alvmoral@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 17:37:34 by alvmoral          #+#    #+#             */
-/*   Updated: 2024/06/18 12:01:34 by alvmoral         ###   ########.fr       */
+/*   Updated: 2024/06/19 20:10:46 by alvmoral         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int	get_lst_from_reads(int fd, t_list **lst)
 		bytes_read = read(fd, read_buffer, BUFFER_SIZE);
 		if (bytes_read == 0)
 			return (0);
+		else if (bytes_read < 0)
+			return (0);
 		read_buffer[bytes_read] = '\0';
 		ft_lstadd_back(lst, ft_strdup(read_buffer, '\0'));
 		eol_present = ft_strchr(read_buffer, '\n') != NULL;
@@ -118,6 +120,8 @@ char	*get_next_line(int fd)
 		ft_lstadd_front(&lst, ft_strdup(after_eol[fd], '\0'));
 	if (ft_strchr(after_eol[fd], '\n') == NULL)
 		bytes_read = get_lst_from_reads(fd, &lst);
+	if (lst == NULL)
+		return (NULL);
 	return_buffer = (char *) malloc(BUFFER_SIZE * ft_lstsize(lst) + 2);
 	ft_bzero(return_buffer, BUFFER_SIZE * (ft_lstsize(lst) - 1) + 2);
 	fill_buffers(lst, return_buffer, after_eol[fd]);
