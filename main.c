@@ -25,13 +25,13 @@ int main(void)
 {
 	int		fd_1;
 	char	*next_line;
-	size_t	bytes_read;
+	//size_t	bytes_read;
 
-	fd_1 = open("textos/quiolin.txt", O_RDONLY);
+	fd_1 = open("./textos/ultima.txt", O_RDONLY);
 	int	n = 10;
 	while (n--)
 	{
-		next_line = get_next_line(fd_1);
+		next_line = get_next_line(45);
 		printf("%s", next_line);
 		free(next_line);
 	}

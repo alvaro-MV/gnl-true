@@ -6,7 +6,7 @@
 /*   By: alvmoral <alvmoral@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:37:28 by alvmoral          #+#    #+#             */
-/*   Updated: 2024/06/18 12:01:04 by alvmoral         ###   ########.fr       */
+/*   Updated: 2024/06/19 19:56:30 by alvmoral         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ int	get_lst_from_reads(int fd, t_list **lst)
 		bytes_read = read(fd, read_buffer, BUFFER_SIZE);
 		if (bytes_read == 0)
 			return (0);
+		else if (bytes_read < 0)
+			return (0);
 		read_buffer[bytes_read] = '\0';
 		ft_lstadd_back(&last_node, ft_strdup(read_buffer, '\0'));
 		eol_present = ft_strchr(read_buffer, '\n') != NULL;
@@ -87,7 +89,7 @@ void	fill_buffers(t_list *lst, char *return_buffer, char *after_eol)
 		while (*lst_content && *lst_content != '\n')
 			return_buffer[i++] = *lst_content++;
 		return_buffer[i] = '\n';
-		*lst_content++;
+		lst_content++;
 		if (*lst_content == '\n')
 			break ;
 		lst = lst->next;
@@ -117,6 +119,8 @@ char	*get_next_line(int fd)
 		ft_lstadd_front(&lst, ft_strdup(after_eol, '\0'));
 	if (ft_strchr(after_eol, '\n') == NULL)
 		bytes_read = get_lst_from_reads(fd, &lst);
+	if (lst == NULL)
+		return (NULL);
 	return_buffer = (char *) malloc(BUFFER_SIZE * ft_lstsize(lst) + 2);
 	ft_bzero(return_buffer, BUFFER_SIZE * (ft_lstsize(lst) - 1) + 2);
 	fill_buffers(lst, return_buffer, after_eol);
